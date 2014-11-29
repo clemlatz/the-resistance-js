@@ -215,8 +215,10 @@ function say(message, timeout) {
 	}, timeout);
 }
 
-var game = new Game();
-
+function newGame() {
+	var game = new Game();
+	game.start();
+}
 
 
 
