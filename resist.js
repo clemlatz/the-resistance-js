@@ -55,21 +55,21 @@ Game.prototype = {
 		alert("Spy recognition phase will begin. Be sure your speaker volume is up and press OK.");
 		
 		// Every player close their eyes
-		playSound('beep', 2500);
+		say('To all players: please close your eyes.', 1000);
 		
 		// Spies, open your eyes
-		playSound('beep', 7500);
+		say('Spies: please open your eyes.', 6000);
 		
 		// Spies, close your eyes
-		playSound('beep', 12500);
+		say('Spies: please close your eyes.', 11000);
 		
 		// Every player open their eyes
-		playSound('beep', 17500);
+		say('To all players: you may now open your eyes.', 14000);
 		
 		var _this = this;
 		setTimeout(function() {
 			_this.main();
-		}, 17500)
+		}, 14000)
 		
 	},
 	main: function() {
@@ -88,7 +88,7 @@ Game.prototype = {
 			var vote = false,
 				leadersRemaining = 5;
 			
-/* 			if (confirm("Exit?")) throw "Game exited"; */
+			if (confirm("Exit?")) throw "Game exited";
 			alert("New mission!\n\nMission "+(missionNumber+1)+" of 5\nLeader: "+leader.name+"\nNext leader: "+nextLeader.name+"\n");
 			
 			// Vote for leader choice acceptance
@@ -208,16 +208,14 @@ var rules = {
 	}
 }
 
-function playSound(sound, timeout) {
+function say(message, timeout) {
 	setTimeout(function() {
-		document.getElementById(sound).play();
+		var msg = new SpeechSynthesisUtterance(message);
+		window.speechSynthesis.speak(msg);
 	}, timeout);
 }
 
 var game = new Game();
-
-playSound("beep", 2500);
-
 
 
 
