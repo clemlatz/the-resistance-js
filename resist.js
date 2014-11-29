@@ -82,13 +82,20 @@ Game.prototype = {
 				var vote = confirm(leader.name+", do the majority of players accept your choice of soldiers for this mission?");
 			
 				if (!vote) {
+				
+					leadersRemaining--;
+					if(leadersRemaining == 0) 
+					{
+						alert("Game over! You ran out of leaders. The governement wins.");
+						throw "Game over!";
+					}
+					
 					// Change leader & nextLeader
-					leaderRemaining--;
 					leader = nextLeader;
 					nextLeaderKey++;
 					nextLeaderKey = nextLeaderKey == this.players.length ? 0 : nextLeaderKey;
 					nextLeader = this.players[nextLeaderKey];
-					alert("New leader for mission"+(missionNumber+1)+"\n\nThe new leader is: "+leader.name+"\nNext leader will be: "+nextLeader.name+"\n\nLeader remaining: "+leaderRemaining);
+					alert("New leader for mission"+(missionNumber+1)+"\n\nThe new leader is: "+leader.name+"\nNext leader will be: "+nextLeader.name+"\n\nLeaders remaining: "+leadersRemaining);
 				}
 			}
 			
