@@ -54,7 +54,22 @@ Game.prototype = {
 		
 		alert("Spy recognition phase will begin. Be sure your speaker volume is up and press OK.");
 		
-		this.main();
+		// Every player close their eyes
+		playSound('beep', 2500);
+		
+		// Spies, open your eyes
+		playSound('beep', 7500);
+		
+		// Spies, close your eyes
+		playSound('beep', 12500);
+		
+		// Every player open their eyes
+		playSound('beep', 17500);
+		
+		var _this = this;
+		setTimeout(function() {
+			_this.main();
+		}, 17500)
 		
 	},
 	main: function() {
@@ -193,10 +208,15 @@ var rules = {
 	}
 }
 
+function playSound(sound, timeout) {
+	setTimeout(function() {
+		document.getElementById(sound).play();
+	}, timeout);
+}
+
 var game = new Game();
 
-
-
+playSound("beep", 2500);
 
 
 
