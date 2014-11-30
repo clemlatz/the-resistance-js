@@ -88,7 +88,7 @@ Game.prototype = {
 			var vote = false,
 				leadersRemaining = 5;
 			
-			if (confirm("Exit?")) throw "Game exited";
+/* 			if (confirm("Exit?")) throw "Game exited"; */
 			alert("New mission!\n\nMission "+(missionNumber+1)+" of 5\nLeader: "+leader.name+"\nNext leader: "+nextLeader.name+"\n");
 			
 			// Vote for leader choice acceptance
@@ -209,8 +209,12 @@ var rules = {
 }
 
 function say(message, timeout) {
+	var to = timeout || 0;
 	setTimeout(function() {
-		var msg = new SpeechSynthesisUtterance(message);
+		var msg = new SpeechSynthesisUtterance();
+		msg.text = message;
+		msg.lang = 'en-US';
+		msg.rate = 0.25;
 		window.speechSynthesis.speak(msg);
 	}, timeout);
 }
@@ -219,8 +223,6 @@ function newGame() {
 	var game = new Game();
 	game.start();
 }
-
-
 
 
 
