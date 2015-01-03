@@ -1,0 +1,28 @@
+{
+  "name": "resist-js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/iwazaru/resist-js",
+  "authors": [
+    "Clement Bourgoin <cb@nokto.net>"
+  ],
+  "description": "A web-app to play The Resistance game on-the-go without the game deck",
+  "keywords": [
+    "cards",
+    "game",
+    "resistance",
+    "angularjs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/libs/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.3.8",
+    "bootstrap": "~3.3.1"
+  }
+}
