@@ -1,0 +1,27 @@
+#game {
+    max-width: 500px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: gray;
+}
+
+input.ng-dirty.ng-invalid {
+    border-color: red;
+}
+
+input.ng-dirty.ng-valid {
+    border-color: green;
+}

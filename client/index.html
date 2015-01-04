@@ -1,29 +1,187 @@
-<!-- simple-todos.html -->
-<head>
-  <title>The Resistance</title>
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-  
-  <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">
-</head>
+<!DOCTYPE html>
+<html ng-app="resist">
+    <head>
+        <title>The Resistance</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
-<body style="text-align: center">
+        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">  
+        <link rel="stylesheet" href="app.css">
 
-	<h1>The Resistance</h1>
-	<button class="btn btn-primary" onclick="newGame()">New game</button>
+    </head>
 
-    <div id="game">
-    
-        <section id="setPlayers">
-        </section>
+    <body>
+
+    	<div id="game" class="container" ng-controller="GameController as gameCtrl">
         
-        <section id="showRoles">
-        </section>
+            <h1>The Resistance</h1>
+
+            <section ng-show="gameCtrl.game.currentPhase === 'Menu' || !gameCtrl.game">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Game menu</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <button class="btn btn-primary" ng-click="gameCtrl.start()">New game</button>
+                        <button class="btn btn-primary" ng-click="gameCtrl.resume()">Resume</button>
+                    </div>
+                </div>
+            </section>
         
-    </div>
+            <section ng-show="gameCtrl.game.currentPhase === 'setPlayers'">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Set players</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form name="addPlayer" ng-submit="gameCtrl.addPlayer()" ng-show="gameCtrl.game.players.length < 10">
+                            <input required placeholder="New player name" ng-model="gameCtrl.newPlayer.name" type="text" class="form-control">
+                        </form>
+                        <br>
+                        <ol id="playerList">
+                            <li ng-repeat="player in gameCtrl.game.players">
+                                {{ player.name }}
+                            </li>
+                        </ol>
+                        <div class="text-center">
+                            <button ng-click="gameCtrl.setSpies()" type="button" class="btn btn-primary continue" ng-disabled="gameCtrl.game.players.length < 5 || gameCtrl.game.players.length > 10">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section ng-show="gameCtrl.game.currentPhase === 'showRoles'">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Recognition phase</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div ng-show="gameCtrl.game.currentPlayer === player.order && gameCtrl.game.currentView === 'handing'" ng-repeat="player in gameCtrl.game.players">
+                            <p>Please hand the device to <strong>{{ player.name }}</strong>.</p>
+                            <button ng-click="gameCtrl.game.currentView = 'showing'" class="btn btn-primary"> I am {{ player.name }}</button>
+                        </div>
+                        <div ng-show="gameCtrl.game.currentPlayer === player.order && gameCtrl.game.currentView === 'showing'" ng-repeat="player in gameCtrl.game.players">
+                            <p><strong>{{ player.name }}</strong>, your role is <strong>{{ player.isSpy ? 'Spy' : 'Resistant' }}</strong>.</p>
+                            <p ng-show="player.isSpy">The spies are: {{ gameCtrl.game.spies.join(', ') }}</p>
+                            <p>Press <strong>Continue</strong> to hide your role before you hand the device.</p> 
+                            <button ng-click="gameCtrl.game.currentView = 'handing'; gameCtrl.nextPlayer()" class="btn btn-primary">Continue</button>
+                        </div>
+                        <div class="text-center">
+                            <button ng-click="gameCtrl.prepareMission()" class="btn btn-primary">End recognition phase</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section ng-show="gameCtrl.game.currentPhase === 'prepareMission'">
+                <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Mission {{ mission.num }} of 5: preparation</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p class="pull-right">Next leader: {{ gameCtrl.game.nextLeader.name; }}</p>
+                        <p>Leader: {{ gameCtrl.game.currentLeader.name; }}</p>
+                        
+                        <div ng-show="gameCtrl.game.currentView === 'teamVote'">
+                            <p>{{ gameCtrl.game.currentLeader.name; }}, choose {{ gameCtrl.game.currentMission.teamSize }} soldiers for this mission and put your choice to the vote.</p>
+                        
+                            <div class="text-center">
+                                <button ng-click="gameCtrl.game.currentView = 'teamPick'" class="btn btn-success">Team accepted by majority</button>
+                                <button ng-click="gameCtrl.nextLeader()" class="btn btn-warning">Team rejected, change leader</button>
+                            </div>
+                        </div>
+                        
+                        <div ng-show="gameCtrl.game.currentView === 'teamPick'">
+                            <p>{{ gameCtrl.game.currentLeader.name; }}, add {{ gameCtrl.game.currentMission.teamSize }} soldiers to the mission team:</p>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    Soldiers:<br>
+                                    <ul>
+                                        <li ng-repeat="soldier in gameCtrl.game.soldiers" ng-click="gameCtrl.addSoldier(soldier)"  class="pointer">{{ soldier.name }}</span>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    In the team:<br>
+                                    <ul>
+                                        <li ng-repeat="soldier in gameCtrl.game.currentMission.team" ng-click="gameCtrl.removeSoldier(soldier)"  class="pointer">{{ soldier.name }}</span>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                            <div class="text-center" ng-show="gameCtrl.game.currentMission.team.length === gameCtrl.game.currentMission.teamSize">
+                                <button ng-click="gameCtrl.doMission()" class="btn btn-primary">Start mission</button>
+                            </div>                        
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            
+            <section ng-show="gameCtrl.game.currentPhase === 'doMission'">
+                <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Mission {{ mission.num }} of 5: in progress</h3>
+                    </div>
+                    <div class="panel-body" ng-repeat="soldier in gameCtrl.game.currentMission.team" ng-show="gameCtrl.game.currentSoldier.id === soldier.id">
+                        <div ng-show="gameCtrl.game.currentView === 'handing'">
+                            <p>Please hand the device to <strong>{{ soldier.name }}</strong>.</p>
+                            <button ng-click="gameCtrl.game.currentView = 'voting'" class="btn btn-primary"> I am {{ soldier.name }}</button>
+                        </div>
+                        <div ng-show="gameCtrl.game.currentView === 'voting'">
+                            <p><strong>{{ soldier.name }}</strong>, do you want to sabotage the mission&nbsp;?</p>
+                            <button ng-click="gameCtrl.missionVote(false);" class="btn btn-success">Do it right</button>
+                            <button ng-click="gameCtrl.missionVote(true)" ng-show="soldier.isSpy" class="btn btn-danger">Sabotage</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section ng-show="gameCtrl.game.currentPhase === 'missionResult'">
+                <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Mission {{ mission.num }} of 5: result</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div>
+                            <p ng-show="gameCtrl.game.currentMission.sabotages === 0" class="alert alert-success">Mission is a success ({{ gameCtrl.game.currentMission.sabotages }} sabotage) !</p>
+                            <p ng-show="gameCtrl.game.currentMission.sabotages > 0" class="alert alert-danger">Mission failed ({{ gameCtrl.game.currentMission.sabotages }} sabotages).</p>
+                            <button ng-click="gameCtrl.nextMission()" class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section ng-show="gameCtrl.game.currentPhase === 'gameOver'">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Game over !</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h2 class="text-center">{{ gameCtrl.game.result }}</h2>
+                        <h4>Game log</h4>
+                        <ul>
+                            <li ng-repeat="line in gameCtrl.game.log">{{ line.message }}</i>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <footer>
+                player: {{ gameCtrl.game.currentPlayer }}<br>
+                phase: {{ gameCtrl.game.currentPhase }}<br>
+                view: {{ gameCtrl.game.currentView }}<br>
+                mission: {{ gameCtrl.game.currentMission.num }}<br>
+                soldier: {{ gameCtrl.game.currentSoldier.name }}<br>
+                version: 0.1
+            </footer>
+            
+        </div>
 
 
-    <script src="/libs/jquery/dist/jquery.min.js"></script>
-    <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/libs/angularjs/angular.min.js"></script>
-	<script src="resist.js"></script>
-</body>
+        <script src="/libs/jquery/dist/jquery.min.js"></script>
+        <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/libs/angularjs/angular.min.js"></script>
+        <script src="/libs/angular-uuid4/angular-uuid4.min.js"></script>
+    	<script src="resist.js"></script>
+    </body>
+</html>
