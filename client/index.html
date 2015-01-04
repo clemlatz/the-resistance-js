@@ -162,6 +162,9 @@
                         <ul>
                             <li ng-repeat="line in gameCtrl.game.log">{{ line.message }}</i>
                         </ul>
+                        <div class="text-center">
+                            <button class="btn btn-primary" ng-click="gameCtrl.start()">New game</button>
+                        </div>
                     </div>
                 </div>
             </section>
