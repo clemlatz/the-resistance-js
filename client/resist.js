@@ -61,7 +61,6 @@ app.controller('GameController', function(uuid4) {
 		this.log('Game started');
 		
 		this.game.currentPhase = 'setPlayers';
-		$('#setPlayers').find('input').focus();
 		
 		this.save();
 	};

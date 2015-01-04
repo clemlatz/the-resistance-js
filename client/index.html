@@ -34,7 +34,7 @@
                     </div>
                     <div class="panel-body">
                         <form name="addPlayer" ng-submit="gameCtrl.addPlayer()" ng-show="gameCtrl.game.players.length < 10">
-                            <input required placeholder="New player name" ng-model="gameCtrl.newPlayer.name" type="text" class="form-control">
+                            <input id="addPlayer" autofocus required placeholder="New player name" ng-model="gameCtrl.newPlayer.name" type="text" class="form-control">
                         </form>
                         <br>
                         <ol id="playerList">
