@@ -270,6 +270,9 @@ app.controller('GameController', function(uuid4) {
 		var game = this.game,
 			mission = game.currentMission;
 			nextMissionId = mission.id + 1;
+			
+		game.changedLeader = 0;
+		this.nextLeader();
 		
 		if (game.score.governement >= 3) {
 			this.endGame('Three missions failed. The governement wins.');
