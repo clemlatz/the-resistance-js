@@ -9,6 +9,7 @@ Based on: http://en.wikipedia.org/wiki/The_Resistance_(game)
 
 Demo: https://resistjs.herokuapp.com/
 
+
 ## Installation
 
 1. Install node & bower
@@ -20,6 +21,7 @@ Demo: https://resistjs.herokuapp.com/
 
 Go to http://localhost:5000/
 
+
 ## Todo
 
 * Show scores
@@ -29,3 +31,10 @@ Go to http://localhost:5000/
 
 *If this is what you're looking for, take a look at this:
 https://github.com/cashto/resistance
+
+
+## Changelog
+
+1.0 (2015-01-06)
+
+* First release
