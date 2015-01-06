@@ -35,6 +35,10 @@ https://github.com/cashto/resistance
 
 ## Changelog
 
+1.0.1 (2015-01-06)
+
+* Added a welcoming text & opengraph tags
+
 1.0 (2015-01-06)
 
 * First release
