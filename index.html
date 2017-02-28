@@ -4,9 +4,9 @@
         <title>The Resistance</title>
         <meta name="viewport" content="initial-scale=1, maximum-scale=1">
 
-        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">  
+        <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="app.css">
-        
+
         <meta property="og:title" content="The Resistance">
         <meta property="og:description" content="A web-app to play The Resistance game on-the-go, without the cards, using a smartphone or a computer. Set the players, and hand the device to each one so they can know their roles and vote in secret.">
 
@@ -15,7 +15,7 @@
     <body>
 
     	<div id="game" class="container" ng-controller="GameController as gameCtrl">
-        
+
             <h1>The Resistance</h1>
 
             <section ng-show="gameCtrl.game.currentPhase === 'Menu' || !gameCtrl.game">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </section>
-        
+
             <section ng-show="gameCtrl.game.currentPhase === 'setPlayers'">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section ng-show="gameCtrl.game.currentPhase === 'showRoles'">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -66,7 +66,7 @@
                         <div ng-show="gameCtrl.game.currentPlayer === player.order && gameCtrl.game.currentView === 'showing'" ng-repeat="player in gameCtrl.game.players">
                             <p><strong>{{ player.name }}</strong>, your role is <strong>{{ player.isSpy ? 'Spy' : 'Resistant' }}</strong>.</p>
                             <p ng-show="player.isSpy">The spies are: {{ gameCtrl.game.spies.join(', ') }}</p>
-                            <p>Press <strong>Continue</strong> to hide your role before you hand the device.</p> 
+                            <p>Press <strong>Continue</strong> to hide your role before you hand the device.</p>
                             <button ng-click="gameCtrl.game.currentView = 'handing'; gameCtrl.nextPlayer()" class="btn btn-primary">Continue</button>
                         </div>
                         <div class="text-center">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section ng-show="gameCtrl.game.currentPhase === 'prepareMission'">
                 <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
                     <div class="panel-heading">
@@ -84,16 +84,16 @@
                     <div class="panel-body">
                         <p class="pull-right">Next leader: {{ gameCtrl.game.nextLeader.name; }}</p>
                         <p>Leader: {{ gameCtrl.game.currentLeader.name; }}</p>
-                        
+
                         <div ng-show="gameCtrl.game.currentView === 'teamVote'">
                             <p>{{ gameCtrl.game.currentLeader.name; }}, choose {{ gameCtrl.game.currentMission.teamSize }} soldiers for this mission and put your choice to the vote.</p>
-                        
+
                             <div class="text-center">
                                 <button ng-click="gameCtrl.game.currentView = 'teamPick'" class="btn btn-success">Team accepted by majority</button>
                                 <button ng-click="gameCtrl.nextLeader()" class="btn btn-warning">Team rejected, change leader</button>
                             </div>
                         </div>
-                        
+
                         <div ng-show="gameCtrl.game.currentView === 'teamPick'">
                             <p>{{ gameCtrl.game.currentLeader.name; }}, add {{ gameCtrl.game.currentMission.teamSize }} soldiers to the mission team:</p>
                             <div class="row">
@@ -109,18 +109,18 @@
                                         <li ng-repeat="soldier in gameCtrl.game.currentMission.team" ng-click="gameCtrl.removeSoldier(soldier)"  class="pointer">{{ soldier.name }}</span>
                                     </ul>
                                 </div>
-                                
+
                             </div>
                             <div class="text-center" ng-show="gameCtrl.game.currentMission.team.length === gameCtrl.game.currentMission.teamSize">
                                 <button ng-click="gameCtrl.doMission()" class="btn btn-primary">Start mission</button>
-                            </div>                        
-                            
+                            </div>
+
                         </div>
-                        
+
                     </div>
                 </div>
             </section>
-            
+
             <section ng-show="gameCtrl.game.currentPhase === 'doMission'">
                 <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
                     <div class="panel-heading">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section ng-show="gameCtrl.game.currentPhase === 'missionResult'">
                 <div class="panel panel-default" ng-repeat="mission in gameCtrl.game.missions" ng-show="mission.num == gameCtrl.game.currentMission.num">
                     <div class="panel-heading">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section ng-show="gameCtrl.game.currentPhase === 'gameOver'">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -172,18 +172,18 @@
                     </div>
                 </div>
             </section>
-            
+
             <footer>
                 v1.0.1 — <a href="https://github.com/iwazaru/resist-js">sources</a>
             </footer>
-            
+
         </div>
 
 
-        <script src="/libs/jquery/dist/jquery.min.js"></script>
-        <script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="/libs/angularjs/angular.min.js"></script>
-        <script src="/libs/angular-uuid4/angular-uuid4.min.js"></script>
+        <script src="libs/jquery/dist/jquery.min.js"></script>
+        <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="libs/angularjs/angular.min.js"></script>
+        <script src="libs/angular-uuid4/angular-uuid4.min.js"></script>
     	<script src="resist.js"></script>
     </body>
 </html>
