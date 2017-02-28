@@ -1,25 +1,24 @@
-resist-js
-=========
+the-resistance-js
+=================
 
 A web-app to play The Resistance game on-the-go without the game deck.
 
 This app won't allow you to play online with distant friends*, but if you are on-the-go with some friends and you don't have the game deck with you, it will replace it.
 
+I mainly created this as an exercise to learn AngularJS.
+
 Based on: http://en.wikipedia.org/wiki/The_Resistance_(game)
 
-Demo: https://resistjs.herokuapp.com/
+Demo: https://www.iwazaru.fr/the-resistance-js/
 
 
 ## Installation
 
-1. Install node & bower
-2. `git clone https://github.com/iwazaru/resist-js`
-3. `cd resist-js`
-4. `npm install`
-5. `bower install`
-6. `node resist.js`
-
-Go to http://localhost:5000/
+1. [Install bower](https://bower.io/)
+2. `git clone https://github.com/iwazaru/the-resistance-js`
+3. `cd the-resistance-js`
+4. `bower install`
+5. Fire up some web server (i.e. [http-server](https://www.npmjs.com/package/http-server))
 
 
 ## Todo
@@ -34,6 +33,10 @@ https://github.com/cashto/resistance
 
 
 ## Changelog
+
+2.0
+
+* Revamped as a simple HTML app without a web-server
 
 1.0.1 (2015-01-06)
 
